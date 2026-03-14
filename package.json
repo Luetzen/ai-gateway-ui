@@ -12,7 +12,7 @@
       "import": "./dist/ai-gateway-ui.js",
       "require": "./dist/ai-gateway-ui.umd.cjs"
     },
-    "./style.css": "./dist/style.css",
+    "./style.css": "./dist/ai-gateway-ui.css",
     "./theme/default.css": "./dist/theme-default.css"
   },
   "files": [

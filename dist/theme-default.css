@@ -1,0 +1,86 @@
+/*
+ * @luetzen/ai-gateway-ui — Default Dark Theme
+ *
+ * Import this file to get sensible defaults that match a dark UI.
+ * Override any --agui-* custom property in your own CSS to customize.
+ *
+ * Usage:
+ *   import "@luetzen/ai-gateway-ui/theme/default.css";
+ */
+
+:root {
+  /* Canvas */
+  --agui-canvas: #0d1117;
+
+  /* Foreground */
+  --agui-fg: #c9d1d9;
+  --agui-fg-muted: #8b949e;
+  --agui-fg-subtle: #6e7681;
+  --agui-fg-on-emphasis: #ffffff;
+
+  /* Accent */
+  --agui-accent: #58a6ff;
+  --agui-accent-emphasis: #1f6feb;
+
+  /* Border */
+  --agui-border: #30363d;
+
+  /* Card */
+  --agui-card-bg: rgba(255, 255, 255, 0.03);
+  --agui-card-border: rgba(255, 255, 255, 0.07);
+  --agui-card-bg-hover: rgba(255, 255, 255, 0.06);
+  --agui-card-border-hover: rgba(255, 255, 255, 0.12);
+
+  /* Input */
+  --agui-input-bg: rgba(0, 0, 0, 0.25);
+  --agui-input-bg-deep: rgba(0, 0, 0, 0.3);
+  --agui-input-border: rgba(255, 255, 255, 0.1);
+
+  /* Focus */
+  --agui-focus-accent: rgba(99, 179, 237, 0.5);
+  --agui-focus-accent-light: rgba(99, 179, 237, 0.15);
+  --agui-focus-accent-border: rgba(99, 179, 237, 0.4);
+
+  /* Semantic */
+  --agui-success-fg: #3fb950;
+  --agui-danger-fg: #f85149;
+  --agui-warning-fg: #d29922;
+  --agui-warning-subtle: rgba(210, 153, 34, 0.1);
+
+  /* Provider brand colors */
+  --agui-provider-local: rgb(74, 222, 128);
+  --agui-provider-local-subtle: rgba(34, 197, 94, 0.1);
+  --agui-provider-local-border: rgba(34, 197, 94, 0.35);
+
+  --agui-provider-cloud: rgb(167, 139, 250);
+  --agui-provider-cloud-subtle: rgba(139, 92, 246, 0.12);
+  --agui-provider-cloud-border: rgba(139, 92, 246, 0.35);
+
+  --agui-provider-anthropic: rgb(251, 146, 60);
+  --agui-provider-anthropic-subtle: rgba(251, 146, 60, 0.1);
+  --agui-provider-anthropic-border: rgba(251, 146, 60, 0.35);
+
+  --agui-provider-gemini: rgb(96, 165, 250);
+  --agui-provider-gemini-subtle: rgba(59, 130, 246, 0.1);
+  --agui-provider-gemini-border: rgba(59, 130, 246, 0.35);
+
+  --agui-provider-online: #48bb78;
+  --agui-provider-online-glow: rgba(72, 187, 120, 0.5);
+
+  /* Button save gradient */
+  --agui-btn-save-bg: linear-gradient(135deg, #3182ce, #1f6feb);
+
+  /* Typography */
+  --agui-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --agui-font-xs: 12px;
+  --agui-font-sm: 14px;
+  --agui-font-md: 16px;
+  --agui-font-lg: 20px;
+  --agui-font-xl: 24px;
+  --agui-fw-semibold: 600;
+
+  /* Radius */
+  --agui-radius-sm: 4px;
+  --agui-radius-md: 6px;
+  --agui-radius-lg: 12px;
+}

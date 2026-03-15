@@ -1,0 +1,118 @@
+# =============================================================================
+# Release Workflow — ai-gateway-ui
+# =============================================================================
+# Creates a GitHub Release when a version tag is pushed.
+#
+# Trigger:  Push of a tag matching  v*.*.*  (e.g. v1.2.3)
+#
+# Jobs:
+#   1. validate  — Parse the tag, verify it matches package.json version
+#   2. build     — Install deps, type-check, build, upload dist/ artifact
+#   3. release   — Download artifact, create GitHub Release with dist zip
+# =============================================================================
+
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Validate — ensure the git tag matches the version in package.json
+  # ---------------------------------------------------------------------------
+  validate:
+    name: Validate tag
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.extract.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract and verify version
+        id: extract
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          echo "Git tag: $TAG"
+
+          # Parse the tag — must be vX.Y.Z (strict semver, no pre-release)
+          if [[ ! "$TAG" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            echo "::error::Tag '$TAG' does not match pattern v*.*.*"
+            exit 1
+          fi
+
+          TAG_VERSION="${BASH_REMATCH[1]}"
+          echo "Version from tag: $TAG_VERSION"
+
+          # Read version from package.json
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          echo "Version from package.json: $PKG_VERSION"
+
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "::error::Tag version ($TAG_VERSION) does not match package.json version ($PKG_VERSION)"
+            exit 1
+          fi
+
+          echo "version=$TAG_VERSION" >> "$GITHUB_OUTPUT"
+
+  # ---------------------------------------------------------------------------
+  # Build — install, type-check, build, and upload dist/ artifact
+  # ---------------------------------------------------------------------------
+  build:
+    name: Build
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check
+        run: npm run type-check
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
+
+  # ---------------------------------------------------------------------------
+  # Release — create GitHub Release and attach dist as a zip
+  # ---------------------------------------------------------------------------
+  release:
+    name: GitHub Release
+    needs: [validate, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download dist artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Create dist zip
+        run: zip -r ai-gateway-ui-${{ needs.validate.outputs.version }}-dist.zip dist/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: false
+          generate_release_notes: true
+          files: ai-gateway-ui-*.zip

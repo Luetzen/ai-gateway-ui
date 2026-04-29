@@ -14,7 +14,7 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { AiModels } from "@luetzen/ai-gateway";
-import type { AiModel, AiChatRequest, AnthropicModel, GeminiModel } from "@luetzen/ai-gateway";
+import type { AiModel, AiChatRequest, AnthropicModel, GeminiModel, OpenAiModel } from "@luetzen/ai-gateway";
 import { AiGatewayApi } from "./api";
 import type {
   AiGatewayUiConfig,
@@ -32,6 +32,7 @@ function serializeModel(model: AiModel): string {
   if (model.type === "Local") return `local:${model.value}`;
   if (model.type === "Cloud") return `cloud:${model.value}`;
   if (model.type === "Gemini") return `gemini:${model.value}`;
+  if (model.type === "OpenAi") return `openai:${model.value}`;
   return "auto";
 }
 
@@ -43,6 +44,8 @@ function deserializeModel(raw: string): AiModel {
     return { type: "Cloud", value: value as AnthropicModel };
   if (provider === "gemini" && value)
     return { type: "Gemini", value: value as GeminiModel };
+  if (provider === "openai" && value)
+    return { type: "OpenAi", value: value as OpenAiModel };
   return AiModels.auto();
 }
 
@@ -56,6 +59,10 @@ function labelForModel(model: AiModel): string {
   if (model.type === "Gemini") {
     const names: Record<string, string> = { flash: "Gemini Flash", pro: "Gemini Pro", flash_lite: "Gemini Flash Lite" };
     return names[model.value] ?? `Gemini ${model.value}`;
+  }
+  if (model.type === "OpenAi") {
+    const names: Record<string, string> = { gpt_4o: "GPT-4o", gpt_4o_mini: "GPT-4o Mini", o1: "o1", o3_mini: "o3-mini" };
+    return names[model.value] ?? `OpenAI ${model.value}`;
   }
   return "Auto";
 }
@@ -96,6 +103,7 @@ export function createAiSettingsStore(config: AiGatewayUiConfig) {
     const isLocalOnline = computed(() => status.value?.lmStudioOnline ?? false);
     const isAnthropicConfigured = computed(() => status.value?.anthropicConfigured ?? false);
     const isGeminiConfigured = computed(() => status.value?.geminiConfigured ?? false);
+    const isOpenAiConfigured = computed(() => status.value?.openAiConfigured ?? false);
     const loadedModels = computed(() => status.value?.loadedModels ?? []);
     const isConfigured = computed(() => config_.value?.isConfigured ?? false);
     const activeModelLabel = computed(() => labelForModel(activeModel.value));
@@ -105,6 +113,7 @@ export function createAiSettingsStore(config: AiGatewayUiConfig) {
       if (m.type === "Local") return "Local";
       if (m.type === "Cloud") return "Claude";
       if (m.type === "Gemini") return "Gemini";
+      if (m.type === "OpenAi") return "OpenAI";
       return "Auto";
     });
     const providerCount = computed(() => {
@@ -112,6 +121,7 @@ export function createAiSettingsStore(config: AiGatewayUiConfig) {
       if (status.value?.lmStudioOnline) count++;
       if (status.value?.anthropicConfigured) count++;
       if (status.value?.geminiConfigured) count++;
+      if (status.value?.openAiConfigured) count++;
       return count;
     });
 
@@ -233,6 +243,7 @@ export function createAiSettingsStore(config: AiGatewayUiConfig) {
       isLocalOnline,
       isAnthropicConfigured,
       isGeminiConfigured,
+      isOpenAiConfigured,
       loadedModels,
       providerCount,
       isConfigured,

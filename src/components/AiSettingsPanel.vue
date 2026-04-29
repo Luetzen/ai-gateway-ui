@@ -58,6 +58,13 @@
                 {{ store.isGeminiConfigured ? "Konfiguriert" : "Kein API Key" }}
               </span>
             </div>
+            <div class="agui-provider-row" :class="{ online: store.isOpenAiConfigured }">
+              <span class="agui-provider-dot"></span>
+              <span class="agui-provider-name">🟩 OpenAI</span>
+              <span class="agui-provider-status">
+                {{ store.isOpenAiConfigured ? "Konfiguriert" : "Kein API Key" }}
+              </span>
+            </div>
           </div>
         </div>
 
@@ -98,6 +105,12 @@
                 <option value="gemini:flash">Flash — schnell, Free Tier</option>
                 <option value="gemini:flash_lite">Flash Lite — ultra-schnell</option>
                 <option value="gemini:pro">Pro — leistungsstark</option>
+              </optgroup>
+              <optgroup v-if="store.isOpenAiConfigured" label="🟩 OpenAI">
+                <option value="openai:gpt_4o_mini">GPT-4o Mini — schnell & günstig</option>
+                <option value="openai:gpt_4o">GPT-4o — leistungsstark</option>
+                <option value="openai:o1">o1 — reasoning</option>
+                <option value="openai:o3_mini">o3-mini — fast reasoning</option>
               </optgroup>
             </select>
             <span
@@ -279,6 +292,38 @@
                 </select>
               </div>
             </div>
+
+            <!-- OpenAI -->
+            <div class="agui-provider-block">
+              <div class="agui-provider-block-header">
+                <span class="agui-badge agui-openai">🟩 Premium</span>
+                <strong>OpenAI</strong>
+                <span class="agui-provider-note">GPT-4o / o1</span>
+              </div>
+              <div class="agui-field">
+                <label>API Key</label>
+                <input
+                  v-model="configForm.openAiApiKey"
+                  type="password"
+                  placeholder="sk-proj-…"
+                  class="agui-field-input"
+                  autocomplete="new-password"
+                />
+                <span class="agui-field-note">
+                  <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">platform.openai.com/api-keys</a>
+                </span>
+              </div>
+              <div class="agui-field">
+                <label>Standard-Modell</label>
+                <select v-model="configForm.defaultOpenAiModel" class="agui-field-select">
+                  <option value="">Standard (gpt_4o_mini)</option>
+                  <option value="gpt_4o_mini">GPT-4o Mini — schnell & günstig</option>
+                  <option value="gpt_4o">GPT-4o — leistungsstark</option>
+                  <option value="o1">o1 — reasoning</option>
+                  <option value="o3_mini">o3-mini — fast reasoning</option>
+                </select>
+              </div>
+            </div>
           </div>
 
           <!-- Advanced -->
@@ -323,7 +368,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, computed } from "vue";
 import { AiModels } from "@luetzen/ai-gateway";
-import type { AiModel, AnthropicModel, GeminiModel } from "@luetzen/ai-gateway";
+import type { AiModel, AnthropicModel, GeminiModel, OpenAiModel } from "@luetzen/ai-gateway";
 import type { AiConfigDto } from "../types";
 
 // ---------------------------------------------------------------------------
@@ -356,6 +401,7 @@ const activeModelSerialized = computed(() => {
   if (m.type === "Local") return `local:${m.value}`;
   if (m.type === "Cloud") return `cloud:${m.value}`;
   if (m.type === "Gemini") return `gemini:${m.value}`;
+  if (m.type === "OpenAi") return `openai:${m.value}`;
   return "auto";
 });
 
@@ -369,6 +415,7 @@ function onQuickTestModelChange(event: Event) {
     if (provider === "local") model = { type: "Local", value };
     else if (provider === "cloud") model = { type: "Cloud", value: value as AnthropicModel };
     else if (provider === "gemini") model = { type: "Gemini", value: value as GeminiModel };
+    else if (provider === "openai") model = { type: "OpenAi", value: value as OpenAiModel };
     else model = AiModels.auto();
   }
   store.value.setActiveModel(model);
@@ -419,9 +466,11 @@ const configForm = ref<AiConfigDto>({
   lmStudioUrl: null,
   anthropicApiKey: null,
   geminiApiKey: null,
+  openAiApiKey: null,
   defaultLocalModel: null,
   defaultCloudModel: null,
   defaultGeminiModel: null,
+  defaultOpenAiModel: null,
 });
 
 watch(
@@ -432,9 +481,11 @@ watch(
       lmStudioUrl: cfg.lmStudioUrl,
       anthropicApiKey: cfg.anthropicApiKey,
       geminiApiKey: cfg.geminiApiKey,
+      openAiApiKey: cfg.openAiApiKey,
       defaultLocalModel: cfg.defaultLocalModel,
       defaultCloudModel: cfg.defaultCloudModel,
       defaultGeminiModel: cfg.defaultGeminiModel,
+      defaultOpenAiModel: cfg.defaultOpenAiModel,
     };
   },
   { immediate: true },
@@ -445,9 +496,11 @@ async function handleSaveConfig() {
     lmStudioUrl: configForm.value.lmStudioUrl?.trim() || null,
     anthropicApiKey: configForm.value.anthropicApiKey?.trim() || null,
     geminiApiKey: configForm.value.geminiApiKey?.trim() || null,
+    openAiApiKey: configForm.value.openAiApiKey?.trim() || null,
     defaultLocalModel: configForm.value.defaultLocalModel?.trim() || null,
     defaultCloudModel: configForm.value.defaultCloudModel?.trim() || null,
     defaultGeminiModel: configForm.value.defaultGeminiModel?.trim() || null,
+    defaultOpenAiModel: configForm.value.defaultOpenAiModel?.trim() || null,
   };
 
   const ok = await store.value.saveConfig(payload);
@@ -827,7 +880,7 @@ onMounted(async () => {
 /* ── Config form ─────────────────────────────────────────── */
 .agui-config-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   margin-bottom: 1rem;
 }
@@ -880,9 +933,18 @@ onMounted(async () => {
   background: var(--agui-provider-cloud-subtle, rgba(139, 92, 246, 0.12));
   color: var(--agui-provider-cloud, rgb(167, 139, 250));
 }
+.agui-qm-openai {
+  border-color: var(--agui-provider-openai-border, rgba(16, 163, 127, 0.35));
+  background: var(--agui-provider-openai-subtle, rgba(16, 163, 127, 0.1));
+  color: var(--agui-provider-openai, rgb(16, 163, 127));
+}
 .agui-badge.agui-gemini {
   background: var(--agui-provider-local-subtle, rgba(34, 197, 94, 0.1));
   color: var(--agui-provider-online, #48bb78);
+}
+.agui-badge.agui-openai {
+  background: var(--agui-provider-openai-subtle, rgba(16, 163, 127, 0.12));
+  color: var(--agui-provider-openai, rgb(16, 163, 127));
 }
 
 .agui-field {

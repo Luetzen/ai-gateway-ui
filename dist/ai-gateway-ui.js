@@ -1,10 +1,10 @@
-import { defineComponent as j, computed as y, ref as v, watch as J, onMounted as X, openBlock as u, createElementBlock as r, createElementVNode as e, normalizeClass as b, createTextVNode as T, toDisplayString as p, Fragment as O, renderList as z, createCommentVNode as f, withDirectives as A, withKeys as Z, vModelText as I, withModifiers as ee, vModelSelect as q, renderSlot as ae } from "vue";
-import { defineStore as te } from "pinia";
-const F = {
+import { defineComponent as J, computed as m, ref as p, watch as X, onMounted as Z, openBlock as r, createElementBlock as d, createElementVNode as e, normalizeClass as k, createTextVNode as T, toDisplayString as g, Fragment as z, renderList as q, createCommentVNode as c, withDirectives as h, withKeys as ee, vModelText as O, withModifiers as ie, vModelSelect as $, createStaticVNode as ae, renderSlot as te } from "vue";
+import { defineStore as le } from "pinia";
+const I = {
   /** Auto: try local first, then Anthropic, then Gemini — first available wins. */
   auto: () => ({ type: "Auto" }),
   /** Use a specific local model by name. */
-  local: (o) => ({ type: "Local", value: o }),
+  local: (t) => ({ type: "Local", value: t }),
   // ---------------------------------------------------------------------------
   // Anthropic — Claude
   // ---------------------------------------------------------------------------
@@ -36,281 +36,319 @@ const F = {
    * Use a specific Gemini model by variant name.
    * Accepts: "flash" | "pro" | "flash_lite"
    */
-  gemini: (o) => ({
+  gemini: (t) => ({
     type: "Gemini",
-    value: o
+    value: t
+  }),
+  // ---------------------------------------------------------------------------
+  // OpenAI
+  // ---------------------------------------------------------------------------
+  /** GPT-4o Mini — fast, affordable, intelligent. */
+  gpt4oMini: () => ({ type: "OpenAi", value: "gpt_4o_mini" }),
+  /** GPT-4o — versatile, high-intelligence model. */
+  gpt4o: () => ({ type: "OpenAi", value: "gpt_4o" }),
+  /** o3-mini — fast reasoning model. */
+  o3Mini: () => ({ type: "OpenAi", value: "o3_mini" }),
+  /** o1 — advanced reasoning model for complex tasks. */
+  o1: () => ({ type: "OpenAi", value: "o1" }),
+  /** Use a specific OpenAI model by variant name. */
+  openAi: (t) => ({
+    type: "OpenAi",
+    value: t
   })
-}, le = { class: "agui-settings-container" }, ie = { class: "agui-settings-content" }, se = { class: "agui-top-row" }, oe = { class: "agui-card agui-status-card" }, ne = { class: "agui-card-header" }, ue = ["disabled"], re = {
+}, oe = { class: "agui-settings-container" }, se = { class: "agui-settings-content" }, ne = { class: "agui-top-row" }, ue = { class: "agui-card agui-status-card" }, re = { class: "agui-card-header" }, de = ["disabled"], pe = {
   key: 0,
   class: "agui-status-loading"
-}, de = {
+}, ve = {
   key: 1,
   class: "agui-provider-list"
-}, ve = { class: "agui-provider-status" }, ce = { class: "agui-provider-status" }, pe = { class: "agui-provider-status" }, ge = { class: "agui-provider-status" }, fe = { class: "agui-card agui-quick-test-card" }, me = { class: "agui-model-row" }, ye = ["value", "disabled"], he = {
+}, ge = { class: "agui-provider-status" }, ce = { class: "agui-provider-status" }, fe = { class: "agui-provider-status" }, me = { class: "agui-provider-status" }, ye = { class: "agui-provider-status" }, Ae = { class: "agui-card agui-quick-test-card" }, he = { class: "agui-model-row" }, ke = ["value", "disabled"], be = {
   key: 0,
   label: "🖥 Lokal (LM Studio)"
-}, ke = ["value"], be = ["value"], Ae = {
+}, Me = ["value"], Ce = ["value"], Se = {
   key: 1,
   label: "☁ Anthropic Claude"
-}, Me = {
+}, we = {
   key: 2,
   label: "✦ Google Gemini"
-}, Se = { class: "agui-quick-test-presets" }, Ce = ["onClick"], we = { class: "agui-quick-test-input-row" }, Le = ["disabled"], _e = ["disabled"], Ge = {
+}, _e = {
+  key: 3,
+  label: "🟩 OpenAI"
+}, Le = { class: "agui-quick-test-presets" }, Ge = ["onClick"], Oe = { class: "agui-quick-test-input-row" }, Ke = ["disabled"], Ie = ["disabled"], Pe = {
   key: 0,
   class: "agui-spinner-sm"
-}, Ke = { key: 1 }, Ie = {
+}, Te = { key: 1 }, Fe = {
   key: 0,
   class: "agui-quick-test-hint"
-}, Fe = {
+}, $e = {
   key: 1,
   class: "agui-quick-test-response"
-}, Pe = { class: "agui-response-meta" }, Te = { class: "agui-meta-chip" }, $e = { class: "agui-meta-chip agui-model" }, Ee = {
+}, Ue = { class: "agui-response-meta" }, Ee = { class: "agui-meta-chip" }, ze = { class: "agui-meta-chip agui-model" }, qe = {
   key: 0,
   class: "agui-meta-chip agui-tokens"
-}, Ue = { class: "agui-response-text" }, Oe = {
+}, Ve = { class: "agui-response-text" }, Ne = {
   key: 2,
   class: "agui-quick-test-error"
-}, ze = { class: "agui-card agui-config-card" }, qe = { class: "agui-card-header" }, Ve = {
+}, xe = { class: "agui-card agui-config-card" }, De = { class: "agui-card-header" }, Re = {
   key: 0,
   class: "agui-legacy-badge"
-}, xe = {
+}, He = {
   key: 0,
   class: "agui-legacy-hint"
-}, Ne = { class: "agui-config-grid" }, De = { class: "agui-provider-block" }, Re = { class: "agui-field" }, He = { class: "agui-provider-block" }, Be = { class: "agui-field" }, Qe = { class: "agui-field" }, Ye = { class: "agui-provider-block" }, We = { class: "agui-field" }, je = { class: "agui-field" }, Je = { class: "agui-advanced-block" }, Xe = {
+}, Be = { class: "agui-config-grid" }, Qe = { class: "agui-provider-block" }, Ye = { class: "agui-field" }, We = { class: "agui-provider-block" }, je = { class: "agui-field" }, Je = { class: "agui-field" }, Xe = { class: "agui-provider-block" }, Ze = { class: "agui-field" }, ei = { class: "agui-field" }, ii = { class: "agui-provider-block" }, ai = { class: "agui-field" }, ti = { class: "agui-field" }, li = { class: "agui-advanced-block" }, oi = {
   class: "agui-field",
   style: { "margin-top": "0.75rem" }
-}, Ze = { class: "agui-config-footer" }, ea = ["disabled"], aa = { key: 0 }, ta = { key: 1 }, la = {
+}, si = { class: "agui-config-footer" }, ni = ["disabled"], ui = { key: 0 }, ri = { key: 1 }, di = {
   key: 0,
   class: "agui-save-ok"
-}, ia = {
+}, pi = {
   key: 1,
   class: "agui-save-err"
-}, sa = {
+}, vi = {
   key: 0,
   class: "agui-card agui-usage-hint-card"
-}, ca = /* @__PURE__ */ j({
+}, hi = /* @__PURE__ */ J({
   __name: "AiSettingsPanel",
   props: {
     store: {}
   },
-  setup(o) {
-    const l = o, t = y(() => l.store), G = ["Wer bist du?", "Antworte auf Deutsch", "Ping!"], m = v("Wer bist du?"), h = v(!1), g = v(null), c = v(""), P = y(() => {
-      const i = t.value.activeModel;
-      return i.type === "Auto" ? "auto" : i.type === "Local" ? `local:${i.value}` : i.type === "Cloud" ? `cloud:${i.value}` : i.type === "Gemini" ? `gemini:${i.value}` : "auto";
+  setup(t) {
+    const l = t, a = m(() => l.store), K = ["Wer bist du?", "Antworte auf Deutsch", "Ping!"], y = p("Wer bist du?"), A = p(!1), f = p(null), v = p(""), P = m(() => {
+      const o = a.value.activeModel;
+      return o.type === "Auto" ? "auto" : o.type === "Local" ? `local:${o.value}` : o.type === "Cloud" ? `cloud:${o.value}` : o.type === "Gemini" ? `gemini:${o.value}` : o.type === "OpenAi" ? `openai:${o.value}` : "auto";
     });
-    function M(i) {
-      const a = i.target.value;
+    function C(o) {
+      const i = o.target.value;
       let s;
-      if (!a || a === "auto")
-        s = F.auto();
+      if (!i || i === "auto")
+        s = I.auto();
       else {
-        const [L, K] = a.split(":");
-        L === "local" ? s = { type: "Local", value: K } : L === "cloud" ? s = { type: "Cloud", value: K } : L === "gemini" ? s = { type: "Gemini", value: K } : s = F.auto();
+        const [M, L] = i.split(":");
+        M === "local" ? s = { type: "Local", value: L } : M === "cloud" ? s = { type: "Cloud", value: L } : M === "gemini" ? s = { type: "Gemini", value: L } : M === "openai" ? s = { type: "OpenAi", value: L } : s = I.auto();
       }
-      t.value.setActiveModel(s);
+      a.value.setActiveModel(s);
     }
     async function S() {
-      if (!(!m.value.trim() || !t.value.isAvailable)) {
-        h.value = !0, g.value = null, c.value = "";
+      if (!(!y.value.trim() || !a.value.isAvailable)) {
+        A.value = !0, f.value = null, v.value = "";
         try {
-          const i = await t.value.chat({
-            model: t.value.activeModel,
+          const o = await a.value.chat({
+            model: a.value.activeModel,
             system: "Antworte sehr kurz — maximal 2 Sätze.",
-            messages: [{ role: "user", content: m.value.trim() }],
+            messages: [{ role: "user", content: y.value.trim() }],
             max_tokens: 256,
             temperature: 0.5
           });
-          i && (g.value = {
-            content: i.content,
-            provider: i.provider,
-            modelUsed: i.modelUsed,
-            usage: i.usage ? { totalTokens: i.usage.totalTokens } : null
+          o && (f.value = {
+            content: o.content,
+            provider: o.provider,
+            modelUsed: o.modelUsed,
+            usage: o.usage ? { totalTokens: o.usage.totalTokens } : null
           });
-        } catch (i) {
-          c.value = i.message ?? "Fehler beim Test";
+        } catch (o) {
+          v.value = o.message ?? "Fehler beim Test";
         } finally {
-          h.value = !1;
+          A.value = !1;
         }
       }
     }
-    async function C() {
-      await t.value.fetchStatus(), t.value.isLocalOnline && await t.value.fetchModels();
+    async function w() {
+      await a.value.fetchStatus(), a.value.isLocalOnline && await a.value.fetchModels();
     }
-    const k = v(!1), d = v({
+    const b = p(!1), n = p({
       lmStudioUrl: null,
       anthropicApiKey: null,
       geminiApiKey: null,
+      openAiApiKey: null,
       defaultLocalModel: null,
       defaultCloudModel: null,
-      defaultGeminiModel: null
+      defaultGeminiModel: null,
+      defaultOpenAiModel: null
     });
-    J(
-      () => t.value.config,
-      (i) => {
-        i && (d.value = {
-          lmStudioUrl: i.lmStudioUrl,
-          anthropicApiKey: i.anthropicApiKey,
-          geminiApiKey: i.geminiApiKey,
-          defaultLocalModel: i.defaultLocalModel,
-          defaultCloudModel: i.defaultCloudModel,
-          defaultGeminiModel: i.defaultGeminiModel
+    X(
+      () => a.value.config,
+      (o) => {
+        o && (n.value = {
+          lmStudioUrl: o.lmStudioUrl,
+          anthropicApiKey: o.anthropicApiKey,
+          geminiApiKey: o.geminiApiKey,
+          openAiApiKey: o.openAiApiKey,
+          defaultLocalModel: o.defaultLocalModel,
+          defaultCloudModel: o.defaultCloudModel,
+          defaultGeminiModel: o.defaultGeminiModel,
+          defaultOpenAiModel: o.defaultOpenAiModel
         });
       },
       { immediate: !0 }
     );
-    async function w() {
-      const i = {
-        lmStudioUrl: d.value.lmStudioUrl?.trim() || null,
-        anthropicApiKey: d.value.anthropicApiKey?.trim() || null,
-        geminiApiKey: d.value.geminiApiKey?.trim() || null,
-        defaultLocalModel: d.value.defaultLocalModel?.trim() || null,
-        defaultCloudModel: d.value.defaultCloudModel?.trim() || null,
-        defaultGeminiModel: d.value.defaultGeminiModel?.trim() || null
+    async function _() {
+      const o = {
+        lmStudioUrl: n.value.lmStudioUrl?.trim() || null,
+        anthropicApiKey: n.value.anthropicApiKey?.trim() || null,
+        geminiApiKey: n.value.geminiApiKey?.trim() || null,
+        openAiApiKey: n.value.openAiApiKey?.trim() || null,
+        defaultLocalModel: n.value.defaultLocalModel?.trim() || null,
+        defaultCloudModel: n.value.defaultCloudModel?.trim() || null,
+        defaultGeminiModel: n.value.defaultGeminiModel?.trim() || null,
+        defaultOpenAiModel: n.value.defaultOpenAiModel?.trim() || null
       };
-      await t.value.saveConfig(i) && (k.value = !0, setTimeout(() => k.value = !1, 3e3));
+      await a.value.saveConfig(o) && (b.value = !0, setTimeout(() => b.value = !1, 3e3));
     }
-    return X(async () => {
-      await t.value.initialize();
-    }), (i, a) => (u(), r("div", le, [
-      a[43] || (a[43] = e("div", { class: "agui-settings-header" }, [
+    return Z(async () => {
+      await a.value.initialize();
+    }), (o, i) => (r(), d("div", oe, [
+      i[53] || (i[53] = e("div", { class: "agui-settings-header" }, [
         e("h1", null, "🤖 AI Gateway"),
         e("p", { class: "agui-header-subtitle" }, " KI-Provider konfigurieren für Prompt-Optimierung und Asset-Generierung ")
       ], -1)),
-      e("div", ie, [
-        e("div", se, [
-          e("div", oe, [
-            e("div", ne, [
-              a[8] || (a[8] = e("h2", null, "Provider Status", -1)),
+      e("div", se, [
+        e("div", ne, [
+          e("div", ue, [
+            e("div", re, [
+              i[10] || (i[10] = e("h2", null, "Provider Status", -1)),
               e("button", {
                 class: "agui-btn-icon",
-                disabled: t.value.isLoadingStatus,
+                disabled: a.value.isLoadingStatus,
                 title: "Status aktualisieren",
-                onClick: C
+                onClick: w
               }, [
                 e("span", {
-                  class: b({ "agui-spinning": t.value.isLoadingStatus })
+                  class: k({ "agui-spinning": a.value.isLoadingStatus })
                 }, "🔄", 2)
-              ], 8, ue)
+              ], 8, de)
             ]),
-            t.value.isLoadingStatus ? (u(), r("div", re, [...a[9] || (a[9] = [
+            a.value.isLoadingStatus ? (r(), d("div", pe, [...i[11] || (i[11] = [
               e("span", { class: "agui-spinner" }, null, -1),
               T(" Lade Status… ", -1)
-            ])])) : (u(), r("div", de, [
+            ])])) : (r(), d("div", ve, [
               e("div", {
-                class: b(["agui-provider-row", { online: t.value.isAvailable }])
+                class: k(["agui-provider-row", { online: a.value.isAvailable }])
               }, [
-                a[10] || (a[10] = e("span", { class: "agui-provider-dot" }, null, -1)),
-                a[11] || (a[11] = e("span", { class: "agui-provider-name" }, "AI Gateway", -1)),
-                e("span", ve, p(t.value.isAvailable ? t.value.providerCount + " Provider aktiv" : "Nicht konfiguriert"), 1)
+                i[12] || (i[12] = e("span", { class: "agui-provider-dot" }, null, -1)),
+                i[13] || (i[13] = e("span", { class: "agui-provider-name" }, "AI Gateway", -1)),
+                e("span", ge, g(a.value.isAvailable ? a.value.providerCount + " Provider aktiv" : "Nicht konfiguriert"), 1)
               ], 2),
               e("div", {
-                class: b(["agui-provider-row", { online: t.value.isLocalOnline }])
+                class: k(["agui-provider-row", { online: a.value.isLocalOnline }])
               }, [
-                a[12] || (a[12] = e("span", { class: "agui-provider-dot" }, null, -1)),
-                a[13] || (a[13] = e("span", { class: "agui-provider-name" }, "🖥 LM Studio", -1)),
-                e("span", ce, p(t.value.isLocalOnline ? "Online (" + t.value.loadedModels.length + " Modell)" : "Offline"), 1)
+                i[14] || (i[14] = e("span", { class: "agui-provider-dot" }, null, -1)),
+                i[15] || (i[15] = e("span", { class: "agui-provider-name" }, "🖥 LM Studio", -1)),
+                e("span", ce, g(a.value.isLocalOnline ? "Online (" + a.value.loadedModels.length + " Modell)" : "Offline"), 1)
               ], 2),
               e("div", {
-                class: b(["agui-provider-row", { online: t.value.isAnthropicConfigured }])
+                class: k(["agui-provider-row", { online: a.value.isAnthropicConfigured }])
               }, [
-                a[14] || (a[14] = e("span", { class: "agui-provider-dot" }, null, -1)),
-                a[15] || (a[15] = e("span", { class: "agui-provider-name" }, "☁ Anthropic", -1)),
-                e("span", pe, p(t.value.isAnthropicConfigured ? "Konfiguriert" : "Kein API Key"), 1)
+                i[16] || (i[16] = e("span", { class: "agui-provider-dot" }, null, -1)),
+                i[17] || (i[17] = e("span", { class: "agui-provider-name" }, "☁ Anthropic", -1)),
+                e("span", fe, g(a.value.isAnthropicConfigured ? "Konfiguriert" : "Kein API Key"), 1)
               ], 2),
               e("div", {
-                class: b(["agui-provider-row", { online: t.value.isGeminiConfigured }])
+                class: k(["agui-provider-row", { online: a.value.isGeminiConfigured }])
               }, [
-                a[16] || (a[16] = e("span", { class: "agui-provider-dot" }, null, -1)),
-                a[17] || (a[17] = e("span", { class: "agui-provider-name" }, "✦ Gemini", -1)),
-                e("span", ge, p(t.value.isGeminiConfigured ? "Konfiguriert" : "Kein API Key"), 1)
+                i[18] || (i[18] = e("span", { class: "agui-provider-dot" }, null, -1)),
+                i[19] || (i[19] = e("span", { class: "agui-provider-name" }, "✦ Gemini", -1)),
+                e("span", me, g(a.value.isGeminiConfigured ? "Konfiguriert" : "Kein API Key"), 1)
+              ], 2),
+              e("div", {
+                class: k(["agui-provider-row", { online: a.value.isOpenAiConfigured }])
+              }, [
+                i[20] || (i[20] = e("span", { class: "agui-provider-dot" }, null, -1)),
+                i[21] || (i[21] = e("span", { class: "agui-provider-name" }, "🟩 OpenAI", -1)),
+                e("span", ye, g(a.value.isOpenAiConfigured ? "Konfiguriert" : "Kein API Key"), 1)
               ], 2)
             ]))
           ]),
-          e("div", fe, [
-            a[22] || (a[22] = e("div", { class: "agui-card-header" }, [
+          e("div", Ae, [
+            i[27] || (i[27] = e("div", { class: "agui-card-header" }, [
               e("h2", null, "Quick-Test"),
               e("span", { class: "agui-card-hint" }, "Verbindung prüfen")
             ], -1)),
-            e("div", me, [
-              a[21] || (a[21] = e("label", { class: "agui-model-label" }, "Modell", -1)),
+            e("div", he, [
+              i[26] || (i[26] = e("label", { class: "agui-model-label" }, "Modell", -1)),
               e("select", {
                 class: "agui-model-select",
                 value: P.value,
-                disabled: h.value,
-                onChange: M
+                disabled: A.value,
+                onChange: C
               }, [
-                a[20] || (a[20] = e("option", { value: "auto" }, "⚡ Auto (Lokal → Claude → Gemini)", -1)),
-                t.value.isLocalOnline ? (u(), r("optgroup", he, [
-                  (u(!0), r(O, null, z(t.value.localModels, (s) => (u(), r("option", {
+                i[25] || (i[25] = e("option", { value: "auto" }, "⚡ Auto (Lokal → Claude → Gemini)", -1)),
+                a.value.isLocalOnline ? (r(), d("optgroup", be, [
+                  (r(!0), d(z, null, q(a.value.localModels, (s) => (r(), d("option", {
                     key: s.id,
                     value: `local:${s.id}`
-                  }, p(s.id), 9, ke))), 128)),
-                  !t.value.localModels.length && t.value.config?.defaultLocalModel ? (u(), r("option", {
+                  }, g(s.id), 9, Me))), 128)),
+                  !a.value.localModels.length && a.value.config?.defaultLocalModel ? (r(), d("option", {
                     key: 0,
-                    value: `local:${t.value.config.defaultLocalModel}`
-                  }, p(t.value.config.defaultLocalModel), 9, be)) : f("", !0)
-                ])) : f("", !0),
-                t.value.isAnthropicConfigured ? (u(), r("optgroup", Ae, [...a[18] || (a[18] = [
+                    value: `local:${a.value.config.defaultLocalModel}`
+                  }, g(a.value.config.defaultLocalModel), 9, Ce)) : c("", !0)
+                ])) : c("", !0),
+                a.value.isAnthropicConfigured ? (r(), d("optgroup", Se, [...i[22] || (i[22] = [
                   e("option", { value: "cloud:haiku" }, "Haiku — schnell & günstig", -1),
                   e("option", { value: "cloud:sonnet" }, "Sonnet — ausgewogen", -1),
                   e("option", { value: "cloud:opus" }, "Opus — leistungsstark", -1)
-                ])])) : f("", !0),
-                t.value.isGeminiConfigured ? (u(), r("optgroup", Me, [...a[19] || (a[19] = [
+                ])])) : c("", !0),
+                a.value.isGeminiConfigured ? (r(), d("optgroup", we, [...i[23] || (i[23] = [
                   e("option", { value: "gemini:flash" }, "Flash — schnell, Free Tier", -1),
                   e("option", { value: "gemini:flash_lite" }, "Flash Lite — ultra-schnell", -1),
                   e("option", { value: "gemini:pro" }, "Pro — leistungsstark", -1)
-                ])])) : f("", !0)
-              ], 40, ye),
+                ])])) : c("", !0),
+                a.value.isOpenAiConfigured ? (r(), d("optgroup", _e, [...i[24] || (i[24] = [
+                  e("option", { value: "openai:gpt_4o_mini" }, "GPT-4o Mini — schnell & günstig", -1),
+                  e("option", { value: "openai:gpt_4o" }, "GPT-4o — leistungsstark", -1),
+                  e("option", { value: "openai:o1" }, "o1 — reasoning", -1),
+                  e("option", { value: "openai:o3_mini" }, "o3-mini — fast reasoning", -1)
+                ])])) : c("", !0)
+              ], 40, ke),
               e("span", {
-                class: b(["agui-model-badge", `agui-qm-${t.value.activeModel.type.toLowerCase()}`])
-              }, p(t.value.activeModelLabel), 3)
+                class: k(["agui-model-badge", `agui-qm-${a.value.activeModel.type.toLowerCase()}`])
+              }, g(a.value.activeModelLabel), 3)
             ]),
-            a[23] || (a[23] = e("p", { class: "agui-quick-test-desc" }, " Schicke eine kurze Nachricht um zu prüfen ob der konfigurierte Provider antwortet. ", -1)),
-            e("div", Se, [
-              (u(), r(O, null, z(G, (s) => e("button", {
+            i[28] || (i[28] = e("p", { class: "agui-quick-test-desc" }, " Schicke eine kurze Nachricht um zu prüfen ob der konfigurierte Provider antwortet. ", -1)),
+            e("div", Le, [
+              (r(), d(z, null, q(K, (s) => e("button", {
                 key: s,
                 type: "button",
-                class: b(["agui-preset-chip", { active: m.value === s }]),
-                onClick: (L) => m.value = s
-              }, p(s), 11, Ce)), 64))
+                class: k(["agui-preset-chip", { active: y.value === s }]),
+                onClick: (M) => y.value = s
+              }, g(s), 11, Ge)), 64))
             ]),
-            e("div", we, [
-              A(e("input", {
-                "onUpdate:modelValue": a[0] || (a[0] = (s) => m.value = s),
+            e("div", Oe, [
+              h(e("input", {
+                "onUpdate:modelValue": i[0] || (i[0] = (s) => y.value = s),
                 type: "text",
                 placeholder: "Eigene Nachricht…",
                 class: "agui-quick-input",
-                disabled: h.value || !t.value.isAvailable,
-                onKeyup: Z(S, ["enter"])
-              }, null, 40, Le), [
-                [I, m.value]
+                disabled: A.value || !a.value.isAvailable,
+                onKeyup: ee(S, ["enter"])
+              }, null, 40, Ke), [
+                [O, y.value]
               ]),
               e("button", {
                 class: "agui-btn-send",
-                disabled: h.value || !m.value.trim() || !t.value.isAvailable,
+                disabled: A.value || !y.value.trim() || !a.value.isAvailable,
                 onClick: S
               }, [
-                h.value ? (u(), r("span", Ge)) : (u(), r("span", Ke, "▶"))
-              ], 8, _e)
+                A.value ? (r(), d("span", Pe)) : (r(), d("span", Te, "▶"))
+              ], 8, Ie)
             ]),
-            !t.value.isAvailable && !t.value.isLoadingStatus ? (u(), r("div", Ie, " Kein Provider konfiguriert — trage unten einen API Key ein. ")) : f("", !0),
-            g.value ? (u(), r("div", Fe, [
-              e("div", Pe, [
-                e("span", Te, p(g.value.provider), 1),
-                e("span", $e, p(g.value.modelUsed), 1),
-                g.value.usage?.totalTokens ? (u(), r("span", Ee, p(g.value.usage.totalTokens) + " Tokens ", 1)) : f("", !0)
+            !a.value.isAvailable && !a.value.isLoadingStatus ? (r(), d("div", Fe, " Kein Provider konfiguriert — trage unten einen API Key ein. ")) : c("", !0),
+            f.value ? (r(), d("div", $e, [
+              e("div", Ue, [
+                e("span", Ee, g(f.value.provider), 1),
+                e("span", ze, g(f.value.modelUsed), 1),
+                f.value.usage?.totalTokens ? (r(), d("span", qe, g(f.value.usage.totalTokens) + " Tokens ", 1)) : c("", !0)
               ]),
-              e("p", Ue, p(g.value.content), 1)
-            ])) : f("", !0),
-            c.value ? (u(), r("div", Oe, p(c.value), 1)) : f("", !0)
+              e("p", Ve, g(f.value.content), 1)
+            ])) : c("", !0),
+            v.value ? (r(), d("div", Ne, g(v.value), 1)) : c("", !0)
           ])
         ]),
-        e("div", ze, [
-          e("div", qe, [
-            a[24] || (a[24] = e("h2", null, "⚙️ Konfiguration", -1)),
-            t.value.configSupported === !1 ? (u(), r("span", Ve, "Env-Vars only")) : f("", !0)
+        e("div", xe, [
+          e("div", De, [
+            i[29] || (i[29] = e("h2", null, "⚙️ Konfiguration", -1)),
+            a.value.configSupported === !1 ? (r(), d("span", Re, "Env-Vars only")) : c("", !0)
           ]),
-          t.value.configSupported === !1 ? (u(), r("div", xe, [...a[25] || (a[25] = [
+          a.value.configSupported === !1 ? (r(), d("div", He, [...i[30] || (i[30] = [
             e("p", null, " Diese Instanz unterstützt keine In-App-Konfiguration. Setze die folgenden Umgebungsvariablen im Backend: ", -1),
             e("div", { class: "agui-env-table" }, [
               e("div", { class: "agui-env-row" }, [
@@ -326,50 +364,50 @@ const F = {
                 e("span", null, "AIza… (Free Tier verfügbar)")
               ])
             ], -1)
-          ])])) : (u(), r("form", {
+          ])])) : (r(), d("form", {
             key: 1,
             class: "agui-config-form",
-            onSubmit: ee(w, ["prevent"])
+            onSubmit: ie(_, ["prevent"])
           }, [
-            e("div", Ne, [
-              e("div", De, [
-                a[28] || (a[28] = e("div", { class: "agui-provider-block-header" }, [
+            e("div", Be, [
+              e("div", Qe, [
+                i[33] || (i[33] = e("div", { class: "agui-provider-block-header" }, [
                   e("span", { class: "agui-badge agui-local" }, "🖥 Lokal"),
                   e("strong", null, "LM Studio"),
                   e("span", { class: "agui-provider-note" }, "Kostenlos · lokal")
                 ], -1)),
-                e("div", Re, [
-                  a[26] || (a[26] = e("label", null, "Server-URL", -1)),
-                  A(e("input", {
-                    "onUpdate:modelValue": a[1] || (a[1] = (s) => d.value.lmStudioUrl = s),
+                e("div", Ye, [
+                  i[31] || (i[31] = e("label", null, "Server-URL", -1)),
+                  h(e("input", {
+                    "onUpdate:modelValue": i[1] || (i[1] = (s) => n.value.lmStudioUrl = s),
                     type: "url",
                     placeholder: "http://192.168.1.121:1234",
                     class: "agui-field-input",
                     autocomplete: "off"
                   }, null, 512), [
-                    [I, d.value.lmStudioUrl]
+                    [O, n.value.lmStudioUrl]
                   ]),
-                  a[27] || (a[27] = e("span", { class: "agui-field-note" }, "IP + Port deines LM Studio Servers", -1))
+                  i[32] || (i[32] = e("span", { class: "agui-field-note" }, "IP + Port deines LM Studio Servers", -1))
                 ])
               ]),
-              e("div", He, [
-                a[33] || (a[33] = e("div", { class: "agui-provider-block-header" }, [
+              e("div", We, [
+                i[38] || (i[38] = e("div", { class: "agui-provider-block-header" }, [
                   e("span", { class: "agui-badge agui-cloud" }, "☁ Cloud"),
                   e("strong", null, "Anthropic Claude"),
                   e("span", { class: "agui-provider-note" }, "Haiku / Sonnet / Opus")
                 ], -1)),
-                e("div", Be, [
-                  a[29] || (a[29] = e("label", null, "API Key", -1)),
-                  A(e("input", {
-                    "onUpdate:modelValue": a[2] || (a[2] = (s) => d.value.anthropicApiKey = s),
+                e("div", je, [
+                  i[34] || (i[34] = e("label", null, "API Key", -1)),
+                  h(e("input", {
+                    "onUpdate:modelValue": i[2] || (i[2] = (s) => n.value.anthropicApiKey = s),
                     type: "password",
                     placeholder: "sk-ant-…",
                     class: "agui-field-input",
                     autocomplete: "new-password"
                   }, null, 512), [
-                    [I, d.value.anthropicApiKey]
+                    [O, n.value.anthropicApiKey]
                   ]),
-                  a[30] || (a[30] = e("span", { class: "agui-field-note" }, [
+                  i[35] || (i[35] = e("span", { class: "agui-field-note" }, [
                     e("a", {
                       href: "https://console.anthropic.com/",
                       target: "_blank",
@@ -377,39 +415,39 @@ const F = {
                     }, "console.anthropic.com")
                   ], -1))
                 ]),
-                e("div", Qe, [
-                  a[32] || (a[32] = e("label", null, "Standard-Modell", -1)),
-                  A(e("select", {
-                    "onUpdate:modelValue": a[3] || (a[3] = (s) => d.value.defaultCloudModel = s),
+                e("div", Je, [
+                  i[37] || (i[37] = e("label", null, "Standard-Modell", -1)),
+                  h(e("select", {
+                    "onUpdate:modelValue": i[3] || (i[3] = (s) => n.value.defaultCloudModel = s),
                     class: "agui-field-select"
-                  }, [...a[31] || (a[31] = [
+                  }, [...i[36] || (i[36] = [
                     e("option", { value: "" }, "Standard (sonnet)", -1),
                     e("option", { value: "haiku" }, "Haiku — schnell & günstig", -1),
                     e("option", { value: "sonnet" }, "Sonnet — ausgewogen", -1),
                     e("option", { value: "opus" }, "Opus — leistungsstark", -1)
                   ])], 512), [
-                    [q, d.value.defaultCloudModel]
+                    [$, n.value.defaultCloudModel]
                   ])
                 ])
               ]),
-              e("div", Ye, [
-                a[38] || (a[38] = e("div", { class: "agui-provider-block-header" }, [
+              e("div", Xe, [
+                i[43] || (i[43] = e("div", { class: "agui-provider-block-header" }, [
                   e("span", { class: "agui-badge agui-gemini" }, "✦ Free"),
                   e("strong", null, "Google Gemini"),
                   e("span", { class: "agui-provider-note" }, "Free Tier verfügbar")
                 ], -1)),
-                e("div", We, [
-                  a[34] || (a[34] = e("label", null, "API Key", -1)),
-                  A(e("input", {
-                    "onUpdate:modelValue": a[4] || (a[4] = (s) => d.value.geminiApiKey = s),
+                e("div", Ze, [
+                  i[39] || (i[39] = e("label", null, "API Key", -1)),
+                  h(e("input", {
+                    "onUpdate:modelValue": i[4] || (i[4] = (s) => n.value.geminiApiKey = s),
                     type: "password",
                     placeholder: "AIza…",
                     class: "agui-field-input",
                     autocomplete: "new-password"
                   }, null, 512), [
-                    [I, d.value.geminiApiKey]
+                    [O, n.value.geminiApiKey]
                   ]),
-                  a[35] || (a[35] = e("span", { class: "agui-field-note" }, [
+                  i[40] || (i[40] = e("span", { class: "agui-field-note" }, [
                     e("a", {
                       href: "https://aistudio.google.com/apikey",
                       target: "_blank",
@@ -418,70 +456,107 @@ const F = {
                     T(" — kostenloser Free Tier ")
                   ], -1))
                 ]),
-                e("div", je, [
-                  a[37] || (a[37] = e("label", null, "Standard-Modell", -1)),
-                  A(e("select", {
-                    "onUpdate:modelValue": a[5] || (a[5] = (s) => d.value.defaultGeminiModel = s),
+                e("div", ei, [
+                  i[42] || (i[42] = e("label", null, "Standard-Modell", -1)),
+                  h(e("select", {
+                    "onUpdate:modelValue": i[5] || (i[5] = (s) => n.value.defaultGeminiModel = s),
                     class: "agui-field-select"
-                  }, [...a[36] || (a[36] = [
+                  }, [...i[41] || (i[41] = [
                     e("option", { value: "" }, "Standard (flash)", -1),
                     e("option", { value: "flash" }, "Flash — schnell, Free Tier", -1),
                     e("option", { value: "flash_lite" }, "Flash Lite — ultra-schnell", -1),
                     e("option", { value: "pro" }, "Pro — leistungsstark", -1)
                   ])], 512), [
-                    [q, d.value.defaultGeminiModel]
+                    [$, n.value.defaultGeminiModel]
+                  ])
+                ])
+              ]),
+              e("div", ii, [
+                i[48] || (i[48] = e("div", { class: "agui-provider-block-header" }, [
+                  e("span", { class: "agui-badge agui-openai" }, "🟩 Premium"),
+                  e("strong", null, "OpenAI"),
+                  e("span", { class: "agui-provider-note" }, "GPT-4o / o1")
+                ], -1)),
+                e("div", ai, [
+                  i[44] || (i[44] = e("label", null, "API Key", -1)),
+                  h(e("input", {
+                    "onUpdate:modelValue": i[6] || (i[6] = (s) => n.value.openAiApiKey = s),
+                    type: "password",
+                    placeholder: "sk-proj-…",
+                    class: "agui-field-input",
+                    autocomplete: "new-password"
+                  }, null, 512), [
+                    [O, n.value.openAiApiKey]
+                  ]),
+                  i[45] || (i[45] = e("span", { class: "agui-field-note" }, [
+                    e("a", {
+                      href: "https://platform.openai.com/api-keys",
+                      target: "_blank",
+                      rel: "noopener"
+                    }, "platform.openai.com/api-keys")
+                  ], -1))
+                ]),
+                e("div", ti, [
+                  i[47] || (i[47] = e("label", null, "Standard-Modell", -1)),
+                  h(e("select", {
+                    "onUpdate:modelValue": i[7] || (i[7] = (s) => n.value.defaultOpenAiModel = s),
+                    class: "agui-field-select"
+                  }, [...i[46] || (i[46] = [
+                    ae('<option value="">Standard (gpt_4o_mini)</option><option value="gpt_4o_mini">GPT-4o Mini — schnell &amp; günstig</option><option value="gpt_4o">GPT-4o — leistungsstark</option><option value="o1">o1 — reasoning</option><option value="o3_mini">o3-mini — fast reasoning</option>', 5)
+                  ])], 512), [
+                    [$, n.value.defaultOpenAiModel]
                   ])
                 ])
               ])
             ]),
-            e("details", Je, [
-              a[41] || (a[41] = e("summary", null, "Erweitert", -1)),
-              e("div", Xe, [
-                a[39] || (a[39] = e("label", null, "Standard lokales Modell", -1)),
-                A(e("input", {
-                  "onUpdate:modelValue": a[6] || (a[6] = (s) => d.value.defaultLocalModel = s),
+            e("details", li, [
+              i[51] || (i[51] = e("summary", null, "Erweitert", -1)),
+              e("div", oi, [
+                i[49] || (i[49] = e("label", null, "Standard lokales Modell", -1)),
+                h(e("input", {
+                  "onUpdate:modelValue": i[8] || (i[8] = (s) => n.value.defaultLocalModel = s),
                   type: "text",
                   placeholder: "z.B. mistral-7b-instruct",
                   class: "agui-field-input"
                 }, null, 512), [
-                  [I, d.value.defaultLocalModel]
+                  [O, n.value.defaultLocalModel]
                 ]),
-                a[40] || (a[40] = e("span", { class: "agui-field-note" }, "Modellname wie in LM Studio angezeigt (optional)", -1))
+                i[50] || (i[50] = e("span", { class: "agui-field-note" }, "Modellname wie in LM Studio angezeigt (optional)", -1))
               ])
             ]),
-            e("div", Ze, [
+            e("div", si, [
               e("button", {
                 type: "submit",
                 class: "agui-btn-save",
-                disabled: t.value.isSavingConfig
+                disabled: a.value.isSavingConfig
               }, [
-                t.value.isSavingConfig ? (u(), r("span", aa, [...a[42] || (a[42] = [
+                a.value.isSavingConfig ? (r(), d("span", ui, [...i[52] || (i[52] = [
                   e("span", { class: "agui-spinner-sm" }, null, -1),
                   T(" Speichern… ", -1)
-                ])])) : (u(), r("span", ta, "💾 Speichern"))
-              ], 8, ea),
-              k.value ? (u(), r("span", la, "✓ Gespeichert & aktiv")) : f("", !0),
-              t.value.error ? (u(), r("span", ia, [
-                T(p(t.value.error) + " ", 1),
+                ])])) : (r(), d("span", ri, "💾 Speichern"))
+              ], 8, ni),
+              b.value ? (r(), d("span", di, "✓ Gespeichert & aktiv")) : c("", !0),
+              a.value.error ? (r(), d("span", pi, [
+                T(g(a.value.error) + " ", 1),
                 e("button", {
                   type: "button",
                   class: "agui-btn-clear-err",
-                  onClick: a[7] || (a[7] = (s) => t.value.clearError())
+                  onClick: i[9] || (i[9] = (s) => a.value.clearError())
                 }, "✕")
-              ])) : f("", !0)
+              ])) : c("", !0)
             ])
           ], 32))
         ]),
-        i.$slots.footer ? (u(), r("div", sa, [
-          ae(i.$slots, "footer")
-        ])) : f("", !0)
+        o.$slots.footer ? (r(), d("div", vi, [
+          te(o.$slots, "footer")
+        ])) : c("", !0)
       ])
     ]));
   }
 });
-class oa {
-  constructor(l, t = "/api/v1/ai") {
-    this.http = l, this.base = t;
+class gi {
+  constructor(l, a = "/api/v1/ai") {
+    this.http = l, this.base = a;
   }
   async getConfig() {
     const l = await this.http.get(
@@ -492,13 +567,13 @@ class oa {
     throw new Error(l.data.error || "Failed to fetch AI config");
   }
   async saveConfig(l) {
-    const t = await this.http.put(
+    const a = await this.http.put(
       `${this.base}/config`,
       l
     );
-    if (t.data.success && t.data.data)
-      return t.data.data;
-    throw new Error(t.data.error || "Failed to save AI config");
+    if (a.data.success && a.data.data)
+      return a.data.data;
+    throw new Error(a.data.error || "Failed to save AI config");
   }
   async getStatus() {
     const l = await this.http.get(
@@ -509,13 +584,13 @@ class oa {
     throw new Error(l.data.error || "Failed to fetch AI status");
   }
   async chat(l) {
-    const t = await this.http.post(
+    const a = await this.http.post(
       `${this.base}/chat`,
       l
     );
-    if (t.data.success && t.data.data)
-      return t.data.data;
-    throw new Error(t.data.error || "AI chat request failed");
+    if (a.data.success && a.data.data)
+      return a.data.data;
+    throw new Error(a.data.error || "AI chat request failed");
   }
   async getModels() {
     const l = await this.http.get(
@@ -526,138 +601,139 @@ class oa {
     throw new Error(l.data.error || "Failed to fetch AI models");
   }
   async loadModel(l) {
-    const t = await this.http.post(`${this.base}/models/load`, { model: l });
-    if (!t.data.success)
-      throw new Error(t.data.error || "Failed to load model");
+    const a = await this.http.post(`${this.base}/models/load`, { model: l });
+    if (!a.data.success)
+      throw new Error(a.data.error || "Failed to load model");
   }
 }
 const V = "agui_active_model";
-function na(o) {
-  return o.type === "Auto" ? "auto" : o.type === "Local" ? `local:${o.value}` : o.type === "Cloud" ? `cloud:${o.value}` : o.type === "Gemini" ? `gemini:${o.value}` : "auto";
+function ci(t) {
+  return t.type === "Auto" ? "auto" : t.type === "Local" ? `local:${t.value}` : t.type === "Cloud" ? `cloud:${t.value}` : t.type === "Gemini" ? `gemini:${t.value}` : t.type === "OpenAi" ? `openai:${t.value}` : "auto";
 }
-function ua(o) {
-  if (!o || o === "auto") return F.auto();
-  const [l, t] = o.split(":");
-  return l === "local" && t ? F.local(t) : l === "cloud" && t ? { type: "Cloud", value: t } : l === "gemini" && t ? { type: "Gemini", value: t } : F.auto();
+function fi(t) {
+  if (!t || t === "auto") return I.auto();
+  const [l, a] = t.split(":");
+  return l === "local" && a ? I.local(a) : l === "cloud" && a ? { type: "Cloud", value: a } : l === "gemini" && a ? { type: "Gemini", value: a } : l === "openai" && a ? { type: "OpenAi", value: a } : I.auto();
 }
-function ra(o) {
-  return o.type === "Auto" ? "Auto" : o.type === "Local" ? `Local: ${o.value}` : o.type === "Cloud" ? `Claude ${{ haiku: "Haiku", sonnet: "Sonnet", opus: "Opus" }[o.value] ?? o.value}` : o.type === "Gemini" ? { flash: "Gemini Flash", pro: "Gemini Pro", flash_lite: "Gemini Flash Lite" }[o.value] ?? `Gemini ${o.value}` : "Auto";
+function mi(t) {
+  return t.type === "Auto" ? "Auto" : t.type === "Local" ? `Local: ${t.value}` : t.type === "Cloud" ? `Claude ${{ haiku: "Haiku", sonnet: "Sonnet", opus: "Opus" }[t.value] ?? t.value}` : t.type === "Gemini" ? { flash: "Gemini Flash", pro: "Gemini Pro", flash_lite: "Gemini Flash Lite" }[t.value] ?? `Gemini ${t.value}` : t.type === "OpenAi" ? { gpt_4o: "GPT-4o", gpt_4o_mini: "GPT-4o Mini", o1: "o1", o3_mini: "o3-mini" }[t.value] ?? `OpenAI ${t.value}` : "Auto";
 }
-function pa(o) {
-  const l = new oa(o.httpClient, o.basePath);
-  return te("agui-ai-settings", () => {
-    const t = v(null), G = v([]), m = v(!1), h = v(!1), g = v(!1), c = v(null), P = v(null), M = v(
-      ua(localStorage.getItem(V) ?? "auto")
-    ), S = v(!1), C = v(null), k = v(!1), d = v(!1), w = v(null), i = y(() => t.value?.available ?? !1), a = y(() => t.value?.lmStudioOnline ?? !1), s = y(() => t.value?.anthropicConfigured ?? !1), L = y(() => t.value?.geminiConfigured ?? !1), K = y(() => t.value?.loadedModels ?? []), x = y(() => C.value?.isConfigured ?? !1), N = y(() => ra(M.value)), D = y(() => {
-      const n = M.value;
-      return n.type === "Auto" ? "Auto" : n.type === "Local" ? "Local" : n.type === "Cloud" ? "Claude" : n.type === "Gemini" ? "Gemini" : "Auto";
-    }), R = y(() => {
-      let n = 0;
-      return t.value?.lmStudioOnline && n++, t.value?.anthropicConfigured && n++, t.value?.geminiConfigured && n++, n;
+function ki(t) {
+  const l = new gi(t.httpClient, t.basePath);
+  return le("agui-ai-settings", () => {
+    const a = p(null), K = p([]), y = p(!1), A = p(!1), f = p(!1), v = p(null), P = p(null), C = p(
+      fi(localStorage.getItem(V) ?? "auto")
+    ), S = p(!1), w = p(null), b = p(!1), n = p(!1), _ = p(null), o = m(() => a.value?.available ?? !1), i = m(() => a.value?.lmStudioOnline ?? !1), s = m(() => a.value?.anthropicConfigured ?? !1), M = m(() => a.value?.geminiConfigured ?? !1), L = m(() => a.value?.openAiConfigured ?? !1), N = m(() => a.value?.loadedModels ?? []), x = m(() => w.value?.isConfigured ?? !1), D = m(() => mi(C.value)), R = m(() => {
+      const u = C.value;
+      return u.type === "Auto" ? "Auto" : u.type === "Local" ? "Local" : u.type === "Cloud" ? "Claude" : u.type === "Gemini" ? "Gemini" : u.type === "OpenAi" ? "OpenAI" : "Auto";
+    }), H = m(() => {
+      let u = 0;
+      return a.value?.lmStudioOnline && u++, a.value?.anthropicConfigured && u++, a.value?.geminiConfigured && u++, a.value?.openAiConfigured && u++, u;
     });
-    function H() {
-      c.value = null;
+    function B() {
+      v.value = null;
     }
-    function B(n) {
-      M.value = n;
+    function Q(u) {
+      C.value = u;
       try {
-        localStorage.setItem(V, na(n));
+        localStorage.setItem(V, ci(u));
       } catch {
       }
     }
-    async function E() {
-      k.value = !0, c.value = null;
-      try {
-        C.value = await l.getConfig(), w.value = !0;
-      } catch (n) {
-        n?.response?.status === 501 ? w.value = !1 : c.value = n.message || "Failed to load AI configuration";
-      } finally {
-        k.value = !1;
-      }
-    }
-    async function Q(n) {
-      d.value = !0, c.value = null;
-      try {
-        return C.value = await l.saveConfig(n), w.value = !0, await $(), !0;
-      } catch (_) {
-        return c.value = _.message || "Failed to save AI configuration", !1;
-      } finally {
-        d.value = !1;
-      }
-    }
-    async function $() {
-      m.value = !0, c.value = null;
-      try {
-        t.value = await l.getStatus(), S.value = !0;
-      } catch (n) {
-        c.value = n.message || "Failed to fetch AI status";
-      } finally {
-        m.value = !1;
-      }
-    }
     async function U() {
-      h.value = !0, c.value = null;
+      b.value = !0, v.value = null;
       try {
-        const n = await l.getModels();
-        G.value = n.models;
-      } catch (n) {
-        c.value = n.message || "Failed to fetch models", G.value = [];
+        w.value = await l.getConfig(), _.value = !0;
+      } catch (u) {
+        u?.response?.status === 501 ? _.value = !1 : v.value = u.message || "Failed to load AI configuration";
       } finally {
-        h.value = !1;
+        b.value = !1;
       }
     }
-    async function Y(n) {
-      g.value = !0, c.value = null;
+    async function Y(u) {
+      n.value = !0, v.value = null;
       try {
-        const _ = await l.chat(n);
-        return P.value = _, _;
-      } catch (_) {
-        return c.value = _.message || "AI chat request failed", null;
+        return w.value = await l.saveConfig(u), _.value = !0, await F(), !0;
+      } catch (G) {
+        return v.value = G.message || "Failed to save AI configuration", !1;
       } finally {
-        g.value = !1;
+        n.value = !1;
       }
     }
-    async function W() {
-      S.value || (await E(), await $(), t.value?.lmStudioOnline && await U());
+    async function F() {
+      y.value = !0, v.value = null;
+      try {
+        a.value = await l.getStatus(), S.value = !0;
+      } catch (u) {
+        v.value = u.message || "Failed to fetch AI status";
+      } finally {
+        y.value = !1;
+      }
+    }
+    async function E() {
+      A.value = !0, v.value = null;
+      try {
+        const u = await l.getModels();
+        K.value = u.models;
+      } catch (u) {
+        v.value = u.message || "Failed to fetch models", K.value = [];
+      } finally {
+        A.value = !1;
+      }
+    }
+    async function W(u) {
+      f.value = !0, v.value = null;
+      try {
+        const G = await l.chat(u);
+        return P.value = G, G;
+      } catch (G) {
+        return v.value = G.message || "AI chat request failed", null;
+      } finally {
+        f.value = !1;
+      }
+    }
+    async function j() {
+      S.value || (await U(), await F(), a.value?.lmStudioOnline && await E());
     }
     return {
       // State
-      status: t,
-      localModels: G,
-      isLoadingStatus: m,
-      isLoadingModels: h,
-      isProcessing: g,
-      error: c,
+      status: a,
+      localModels: K,
+      isLoadingStatus: y,
+      isLoadingModels: A,
+      isProcessing: f,
+      error: v,
       lastResponse: P,
-      activeModel: M,
+      activeModel: C,
       initialized: S,
-      config: C,
-      isLoadingConfig: k,
-      isSavingConfig: d,
-      configSupported: w,
+      config: w,
+      isLoadingConfig: b,
+      isSavingConfig: n,
+      configSupported: _,
       // Computed
-      isAvailable: i,
-      isLocalOnline: a,
+      isAvailable: o,
+      isLocalOnline: i,
       isAnthropicConfigured: s,
-      isGeminiConfigured: L,
-      loadedModels: K,
-      providerCount: R,
+      isGeminiConfigured: M,
+      isOpenAiConfigured: L,
+      loadedModels: N,
+      providerCount: H,
       isConfigured: x,
-      activeModelLabel: N,
-      activeModelProviderTag: D,
+      activeModelLabel: D,
+      activeModelProviderTag: R,
       // Actions
-      clearError: H,
-      setActiveModel: B,
-      loadConfig: E,
-      saveConfig: Q,
-      fetchStatus: $,
-      fetchModels: U,
-      chat: Y,
-      initialize: W
+      clearError: B,
+      setActiveModel: Q,
+      loadConfig: U,
+      saveConfig: Y,
+      fetchStatus: F,
+      fetchModels: E,
+      chat: W,
+      initialize: j
     };
   });
 }
 export {
-  ca as AiSettingsPanel,
-  pa as createAiSettingsStore
+  hi as AiSettingsPanel,
+  ki as createAiSettingsStore
 };

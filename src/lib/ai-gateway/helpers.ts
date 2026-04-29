@@ -1,4 +1,4 @@
-import type { AiMessage, AiModel, GeminiModel } from "./types";
+import type { AiMessage, AiModel, GeminiModel, OpenAiModel } from "./types";
 
 // =============================================================================
 // Message Constructors
@@ -83,6 +83,28 @@ export const AiModels = {
    */
   gemini: (variant: GeminiModel): AiModel => ({
     type: "Gemini",
+    value: variant,
+  }),
+
+  // ---------------------------------------------------------------------------
+  // OpenAI
+  // ---------------------------------------------------------------------------
+
+  /** GPT-4o Mini — fast, affordable, intelligent. */
+  gpt4oMini: (): AiModel => ({ type: "OpenAi", value: "gpt_4o_mini" }),
+
+  /** GPT-4o — versatile, high-intelligence model. */
+  gpt4o: (): AiModel => ({ type: "OpenAi", value: "gpt_4o" }),
+
+  /** o3-mini — fast reasoning model. */
+  o3Mini: (): AiModel => ({ type: "OpenAi", value: "o3_mini" }),
+
+  /** o1 — advanced reasoning model for complex tasks. */
+  o1: (): AiModel => ({ type: "OpenAi", value: "o1" }),
+
+  /** Use a specific OpenAI model by variant name. */
+  openAi: (variant: OpenAiModel): AiModel => ({
+    type: "OpenAi",
     value: variant,
   }),
 } as const;

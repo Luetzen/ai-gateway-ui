@@ -3,11 +3,13 @@
 // These types mirror the Rust crate types exactly.
 // =============================================================================
 
-export type AiProvider = "lm_studio" | "anthropic" | "gemini";
+export type AiProvider = "lm_studio" | "anthropic" | "gemini" | "openai";
 
 export type AnthropicModel = "haiku" | "sonnet" | "opus";
 
 export type GeminiModel = "flash" | "pro" | "flash_lite";
+
+export type OpenAiModel = "gpt_4o" | "gpt_4o_mini" | "o1" | "o3_mini";
 
 export type AiRole = "user" | "assistant";
 
@@ -23,6 +25,7 @@ export type AiModel =
   | { type: "Local"; value: string }
   | { type: "Cloud"; value: AnthropicModel }
   | { type: "Gemini"; value: GeminiModel }
+  | { type: "OpenAi"; value: OpenAiModel }
   | { type: "Auto" };
 
 export interface AiMessage {
@@ -165,11 +168,17 @@ export interface AiGeminiStatus {
   available_models: string[];
 }
 
+export interface AiOpenAiStatus {
+  configured: boolean;
+  available_models: string[];
+}
+
 export interface AiStatusResponse {
   available: boolean;
   local: AiLocalStatus;
   cloud: AiCloudStatus;
   gemini: AiGeminiStatus;
+  openai: AiOpenAiStatus;
 }
 
 export interface AiModelInfo {

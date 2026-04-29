@@ -54,9 +54,11 @@ export declare interface AiConfigDto {
     lmStudioUrl: string | null;
     anthropicApiKey: string | null;
     geminiApiKey: string | null;
+    openAiApiKey: string | null;
     defaultLocalModel: string | null;
     defaultCloudModel: string | null;
     defaultGeminiModel: string | null;
+    defaultOpenAiModel: string | null;
 }
 
 /** Response envelope returned by GET and PUT /api/v1/ai/config */
@@ -116,6 +118,9 @@ declare type AiModel = {
     type: "Gemini";
     value: GeminiModel;
 } | {
+    type: "OpenAi";
+    value: OpenAiModel;
+} | {
     type: "Auto";
 };
 
@@ -135,6 +140,7 @@ export declare interface AiStatusResponse {
     loadedModels: string[];
     anthropicConfigured: boolean;
     geminiConfigured: boolean;
+    openAiConfigured: boolean;
 }
 
 declare interface AiUsageDto {
@@ -158,12 +164,14 @@ lmStudioOnline: boolean;
 loadedModels: string[];
 anthropicConfigured: boolean;
 geminiConfigured: boolean;
+openAiConfigured: boolean;
 } | null, AiStatusResponse | {
 available: boolean;
 lmStudioOnline: boolean;
 loadedModels: string[];
 anthropicConfigured: boolean;
 geminiConfigured: boolean;
+openAiConfigured: boolean;
 } | null>;
 localModels: Ref<    {
 id: string;
@@ -207,6 +215,9 @@ value: AnthropicModel;
 type: "Gemini";
 value: GeminiModel;
 } | {
+type: "OpenAi";
+value: OpenAiModel;
+} | {
 type: "Auto";
 }, AiModel | {
 type: "Local";
@@ -218,6 +229,9 @@ value: AnthropicModel;
 type: "Gemini";
 value: GeminiModel;
 } | {
+type: "OpenAi";
+value: OpenAiModel;
+} | {
 type: "Auto";
 }>;
 initialized: Ref<boolean, boolean>;
@@ -226,17 +240,21 @@ isConfigured: boolean;
 lmStudioUrl: string | null;
 anthropicApiKey: string | null;
 geminiApiKey: string | null;
+openAiApiKey: string | null;
 defaultLocalModel: string | null;
 defaultCloudModel: string | null;
 defaultGeminiModel: string | null;
+defaultOpenAiModel: string | null;
 } | null, AiConfigResponse | {
 isConfigured: boolean;
 lmStudioUrl: string | null;
 anthropicApiKey: string | null;
 geminiApiKey: string | null;
+openAiApiKey: string | null;
 defaultLocalModel: string | null;
 defaultCloudModel: string | null;
 defaultGeminiModel: string | null;
+defaultOpenAiModel: string | null;
 } | null>;
 isLoadingConfig: Ref<boolean, boolean>;
 isSavingConfig: Ref<boolean, boolean>;
@@ -245,11 +263,12 @@ isAvailable: ComputedRef<boolean>;
 isLocalOnline: ComputedRef<boolean>;
 isAnthropicConfigured: ComputedRef<boolean>;
 isGeminiConfigured: ComputedRef<boolean>;
+isOpenAiConfigured: ComputedRef<boolean>;
 loadedModels: ComputedRef<string[]>;
 providerCount: ComputedRef<number>;
 isConfigured: ComputedRef<boolean>;
 activeModelLabel: ComputedRef<string>;
-activeModelProviderTag: ComputedRef<"Local" | "Gemini" | "Auto" | "Claude">;
+activeModelProviderTag: ComputedRef<"Local" | "Gemini" | "Auto" | "Claude" | "OpenAI">;
 clearError: () => void;
 setActiveModel: (model: AiModel) => void;
 loadConfig: () => Promise<void>;
@@ -265,12 +284,14 @@ lmStudioOnline: boolean;
 loadedModels: string[];
 anthropicConfigured: boolean;
 geminiConfigured: boolean;
+openAiConfigured: boolean;
 } | null, AiStatusResponse | {
 available: boolean;
 lmStudioOnline: boolean;
 loadedModels: string[];
 anthropicConfigured: boolean;
 geminiConfigured: boolean;
+openAiConfigured: boolean;
 } | null>;
 localModels: Ref<    {
 id: string;
@@ -314,6 +335,9 @@ value: AnthropicModel;
 type: "Gemini";
 value: GeminiModel;
 } | {
+type: "OpenAi";
+value: OpenAiModel;
+} | {
 type: "Auto";
 }, AiModel | {
 type: "Local";
@@ -325,6 +349,9 @@ value: AnthropicModel;
 type: "Gemini";
 value: GeminiModel;
 } | {
+type: "OpenAi";
+value: OpenAiModel;
+} | {
 type: "Auto";
 }>;
 initialized: Ref<boolean, boolean>;
@@ -333,17 +360,21 @@ isConfigured: boolean;
 lmStudioUrl: string | null;
 anthropicApiKey: string | null;
 geminiApiKey: string | null;
+openAiApiKey: string | null;
 defaultLocalModel: string | null;
 defaultCloudModel: string | null;
 defaultGeminiModel: string | null;
+defaultOpenAiModel: string | null;
 } | null, AiConfigResponse | {
 isConfigured: boolean;
 lmStudioUrl: string | null;
 anthropicApiKey: string | null;
 geminiApiKey: string | null;
+openAiApiKey: string | null;
 defaultLocalModel: string | null;
 defaultCloudModel: string | null;
 defaultGeminiModel: string | null;
+defaultOpenAiModel: string | null;
 } | null>;
 isLoadingConfig: Ref<boolean, boolean>;
 isSavingConfig: Ref<boolean, boolean>;
@@ -352,11 +383,12 @@ isAvailable: ComputedRef<boolean>;
 isLocalOnline: ComputedRef<boolean>;
 isAnthropicConfigured: ComputedRef<boolean>;
 isGeminiConfigured: ComputedRef<boolean>;
+isOpenAiConfigured: ComputedRef<boolean>;
 loadedModels: ComputedRef<string[]>;
 providerCount: ComputedRef<number>;
 isConfigured: ComputedRef<boolean>;
 activeModelLabel: ComputedRef<string>;
-activeModelProviderTag: ComputedRef<"Local" | "Gemini" | "Auto" | "Claude">;
+activeModelProviderTag: ComputedRef<"Local" | "Gemini" | "Auto" | "Claude" | "OpenAI">;
 clearError: () => void;
 setActiveModel: (model: AiModel) => void;
 loadConfig: () => Promise<void>;
@@ -365,19 +397,21 @@ fetchStatus: () => Promise<void>;
 fetchModels: () => Promise<void>;
 chat: (request: AiChatRequest) => Promise<AiChatResponse | null>;
 initialize: () => Promise<void>;
-}, "loadedModels" | "isConfigured" | "isAvailable" | "isLocalOnline" | "isAnthropicConfigured" | "isGeminiConfigured" | "providerCount" | "activeModelLabel" | "activeModelProviderTag">, Pick<{
+}, "loadedModels" | "isConfigured" | "isAvailable" | "isLocalOnline" | "isAnthropicConfigured" | "isGeminiConfigured" | "isOpenAiConfigured" | "providerCount" | "activeModelLabel" | "activeModelProviderTag">, Pick<{
 status: Ref<    {
 available: boolean;
 lmStudioOnline: boolean;
 loadedModels: string[];
 anthropicConfigured: boolean;
 geminiConfigured: boolean;
+openAiConfigured: boolean;
 } | null, AiStatusResponse | {
 available: boolean;
 lmStudioOnline: boolean;
 loadedModels: string[];
 anthropicConfigured: boolean;
 geminiConfigured: boolean;
+openAiConfigured: boolean;
 } | null>;
 localModels: Ref<    {
 id: string;
@@ -421,6 +455,9 @@ value: AnthropicModel;
 type: "Gemini";
 value: GeminiModel;
 } | {
+type: "OpenAi";
+value: OpenAiModel;
+} | {
 type: "Auto";
 }, AiModel | {
 type: "Local";
@@ -432,6 +469,9 @@ value: AnthropicModel;
 type: "Gemini";
 value: GeminiModel;
 } | {
+type: "OpenAi";
+value: OpenAiModel;
+} | {
 type: "Auto";
 }>;
 initialized: Ref<boolean, boolean>;
@@ -440,17 +480,21 @@ isConfigured: boolean;
 lmStudioUrl: string | null;
 anthropicApiKey: string | null;
 geminiApiKey: string | null;
+openAiApiKey: string | null;
 defaultLocalModel: string | null;
 defaultCloudModel: string | null;
 defaultGeminiModel: string | null;
+defaultOpenAiModel: string | null;
 } | null, AiConfigResponse | {
 isConfigured: boolean;
 lmStudioUrl: string | null;
 anthropicApiKey: string | null;
 geminiApiKey: string | null;
+openAiApiKey: string | null;
 defaultLocalModel: string | null;
 defaultCloudModel: string | null;
 defaultGeminiModel: string | null;
+defaultOpenAiModel: string | null;
 } | null>;
 isLoadingConfig: Ref<boolean, boolean>;
 isSavingConfig: Ref<boolean, boolean>;
@@ -459,11 +503,12 @@ isAvailable: ComputedRef<boolean>;
 isLocalOnline: ComputedRef<boolean>;
 isAnthropicConfigured: ComputedRef<boolean>;
 isGeminiConfigured: ComputedRef<boolean>;
+isOpenAiConfigured: ComputedRef<boolean>;
 loadedModels: ComputedRef<string[]>;
 providerCount: ComputedRef<number>;
 isConfigured: ComputedRef<boolean>;
 activeModelLabel: ComputedRef<string>;
-activeModelProviderTag: ComputedRef<"Local" | "Gemini" | "Auto" | "Claude">;
+activeModelProviderTag: ComputedRef<"Local" | "Gemini" | "Auto" | "Claude" | "OpenAI">;
 clearError: () => void;
 setActiveModel: (model: AiModel) => void;
 loadConfig: () => Promise<void>;
@@ -475,5 +520,7 @@ initialize: () => Promise<void>;
 }, "clearError" | "setActiveModel" | "loadConfig" | "saveConfig" | "fetchStatus" | "fetchModels" | "chat" | "initialize">>;
 
 declare type GeminiModel = "flash" | "pro" | "flash_lite";
+
+declare type OpenAiModel = "gpt_4o" | "gpt_4o_mini" | "o1" | "o3_mini";
 
 export { }

@@ -61,6 +61,7 @@ export interface AiStatusResponse {
   loadedModels: string[];
   anthropicConfigured: boolean;
   geminiConfigured: boolean;
+  openAiConfigured: boolean;
 }
 
 export interface AiModelInfo {
@@ -81,9 +82,11 @@ export interface AiConfigDto {
   lmStudioUrl: string | null;
   anthropicApiKey: string | null;
   geminiApiKey: string | null;
+  openAiApiKey: string | null;
   defaultLocalModel: string | null;
   defaultCloudModel: string | null;
   defaultGeminiModel: string | null;
+  defaultOpenAiModel: string | null;
 }
 
 /** Response envelope returned by GET and PUT /api/v1/ai/config */

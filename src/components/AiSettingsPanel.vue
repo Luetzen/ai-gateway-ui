@@ -396,8 +396,8 @@ async function runQuickTest() {
         usage: res.usage ? { totalTokens: res.usage.totalTokens } : null,
       };
     }
-  } catch (e: any) {
-    quickTestError.value = e.message ?? "Fehler beim Test";
+  } catch (e: unknown) {
+    quickTestError.value = (e instanceof Error && e.message) ? e.message : "Fehler beim Test";
   } finally {
     quickTesting.value = false;
   }

@@ -135,11 +135,19 @@ export function createAiSettingsStore(config: AiGatewayUiConfig) {
       try {
         config_.value = await api.getConfig();
         configSupported.value = true;
-      } catch (e: any) {
-        if (e?.response?.status === 501) {
+      } catch (e: unknown) {
+        if (
+          typeof e === "object" &&
+          e !== null &&
+          "response" in e &&
+          typeof (e as any).response === "object" &&
+          (e as any).response !== null &&
+          "status" in (e as any).response &&
+          (e as any).response.status === 501
+        ) {
           configSupported.value = false;
         } else {
-          error.value = e.message || "Failed to load AI configuration";
+          error.value = (e instanceof Error && e.message) ? e.message : "Failed to load AI configuration";
         }
       } finally {
         isLoadingConfig.value = false;
@@ -154,8 +162,8 @@ export function createAiSettingsStore(config: AiGatewayUiConfig) {
         configSupported.value = true;
         await fetchStatus();
         return true;
-      } catch (e: any) {
-        error.value = e.message || "Failed to save AI configuration";
+      } catch (e: unknown) {
+        error.value = (e instanceof Error && e.message) ? e.message : "Failed to save AI configuration";
         return false;
       } finally {
         isSavingConfig.value = false;
@@ -168,8 +176,8 @@ export function createAiSettingsStore(config: AiGatewayUiConfig) {
       try {
         status.value = await api.getStatus();
         initialized.value = true;
-      } catch (e: any) {
-        error.value = e.message || "Failed to fetch AI status";
+      } catch (e: unknown) {
+        error.value = (e instanceof Error && e.message) ? e.message : "Failed to fetch AI status";
       } finally {
         isLoadingStatus.value = false;
       }
@@ -181,8 +189,8 @@ export function createAiSettingsStore(config: AiGatewayUiConfig) {
       try {
         const response = await api.getModels();
         localModels.value = response.models;
-      } catch (e: any) {
-        error.value = e.message || "Failed to fetch models";
+      } catch (e: unknown) {
+        error.value = (e instanceof Error && e.message) ? e.message : "Failed to fetch models";
         localModels.value = [];
       } finally {
         isLoadingModels.value = false;
@@ -196,8 +204,8 @@ export function createAiSettingsStore(config: AiGatewayUiConfig) {
         const response = await api.chat(request);
         lastResponse.value = response;
         return response;
-      } catch (e: any) {
-        error.value = e.message || "AI chat request failed";
+      } catch (e: unknown) {
+        error.value = (e instanceof Error && e.message) ? e.message : "AI chat request failed";
         return null;
       } finally {
         isProcessing.value = false;

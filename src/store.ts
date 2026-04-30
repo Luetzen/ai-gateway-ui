@@ -206,8 +206,7 @@ export function createAiSettingsStore(config: AiGatewayUiConfig) {
 
     async function initialize(): Promise<void> {
       if (initialized.value) return;
-      await loadConfig();
-      await fetchStatus();
+      await Promise.all([loadConfig(), fetchStatus()]);
       if (status.value?.lmStudioOnline) {
         await fetchModels();
       }
